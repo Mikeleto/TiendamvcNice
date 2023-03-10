@@ -13,13 +13,13 @@ class ShopController extends Controller
     {
         $session = new Session();
 
-        if ($session->getLogin()) {
+     //   if ($session->getLogin()) {
 
             $mostSold = $this->model->getMostSold();
             $news = $this->model->getNews();
 
             $data = [
-                'titulo' => 'Bienvenid@ a nuestra tienda',
+
                 'menu' => true,
                 'subtitle' => 'Artículos mas vendidos',
                 'data' => $mostSold,
@@ -27,9 +27,9 @@ class ShopController extends Controller
                 'news' => $news,
             ];
             $this->view('shop/index', $data);
-        } else {
-            header('location:' . ROOT);
-        }
+   //     } else {
+   //         header('location:' . ROOT);
+    //    }
 
     }
 
@@ -47,20 +47,20 @@ class ShopController extends Controller
         $product = $this->model->getProductById($id);
 
         // Agregar el campo $listTitle al array $data
-        if ($product->type == 1) {
-            $listTitle = 'Cursos';
-        } elseif ($product->type == 2) {
-            $listTitle = 'Libros';
-        } else {
-            $listTitle = 'Productos';
-        }
+if($product->type == 1){
+    $listTitle = 'Libros';
+}elseif($product->type == 2){
+    $listTitle = 'Cursos';
+}else{
+    $listTitle = 'Productos';
+}
 
         $data = [
             'titulo' => 'Detalle del producto',
             'menu' => true,
             'subtitle' => $product->name,
             'back' => $back,
-            'listTitle' => $listTitle, // Agregar el campo $listTitle al array $data
+             'listTitle' => $listTitle,// Agregar el campo $listTitle al array $data
             'errors' => [],
             'data' => $product,
             'user_id' => $session->getUserId(),
@@ -72,9 +72,10 @@ class ShopController extends Controller
 
     public function whoami()
     {
-        $session = new Session();
 
-        if ($session->getLogin()) {
+        $session = new Session();
+     //   if ($session->getLogin()) {
+            $session = new Session();
 
             $data = [
                 'titulo' => 'Quienes somos',
@@ -83,9 +84,9 @@ class ShopController extends Controller
             ];
 
             $this->view('shop/whoami', $data);
-        } else {
-            header('location:' . ROOT);
-        }
+    //    }else{
+      //      header('location:' . ROOT);
+       // }
     }
 
     public function contact()
@@ -138,10 +139,11 @@ class ShopController extends Controller
                     $this->view('mensaje', $data);
                 }
             } else {
+                $session = new Session();
+           //     if ($session->getLogin()) {
                 $data = [
                     'titulo' => 'Contacta con nosotros',
                     'menu' => true,
-                    'errors' => $errors,
                     'active' => 'contact',
                 ];
                 $this->view('shop/contact', $data);
@@ -150,7 +152,6 @@ class ShopController extends Controller
 
             $session = new Session();
 
-            if ($session->getLogin()) {
 
                 $data = [
                     'titulo' => 'Contacta con nosotros',
@@ -158,10 +159,8 @@ class ShopController extends Controller
                     'active' => 'contact',
                 ];
 
-                $this->view('shop/contact', $data);
-            } else {
-                header('location:' . ROOT);
-            }
+            $this->view('shop/contact', $data);
+
 
         }
     }
