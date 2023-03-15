@@ -27,6 +27,10 @@
     <a href="<?= ROOT ?>cart/addproduct/<?= $data['data']->id ?>/<?= $data['user_id'] ?>" class="btn btn-primary">
         Comprar
     </a>
+<?php elseif (isset($_SESSION['admin'])): ?>
+    <a href="<?= ROOT ?>cart/addproduct/<?= $data['data']->id ?>/<?= $data['user_id'] ?>" class="btn btn-primary">
+        Comprar
+    </a>
 <?php else: ?>
     <a href="<?= ROOT ?>login/index" class="btn btn-primary">
         Comprar

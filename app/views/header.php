@@ -40,6 +40,34 @@
                         <a href="<?= ROOT ?>shop/contact" class="nav-link <?= (isset($data['active']) && $data['active']=='contact') ? 'active' : '' ?>">Contacto</a>
                     </li>
 
+                    <?php
+
+
+                    // Verificar si el usuario ha iniciado sesión
+                    if (isset($_SESSION['user_id'])) {
+
+                        // Conectar a la base de datos
+                        $conn = mysqli_connect('localhost', 'username', 'password', 'database');
+
+                        // Verificar si el usuario es un admin
+                        $user_id = $_SESSION['user_id'];
+                        $query = "SELECT * FROM admins WHERE user_id = $user_id";
+                        $result = mysqli_query($conn, $query);
+
+                        if (mysqli_num_rows($result) > 0) {
+                            // Mostrar el elemento de navegación para el panel de administración
+                            ?>
+                            <li class="nav-item">
+                                <a href="<?= ROOT ?>adminShop" class="nav-link <?= (isset($data['active']) && $data['active']=='contact') ? 'active' : '' ?>">Ir al panel de administracion</a>
+                            </li>
+                            <?php
+                        }
+
+                        // Cerrar la conexión a la base de datos
+                        mysqli_close($conn);
+                    }
+                    ?>
+
                 </ul>
             </div>
             <div class="d-flex justify-content-end">
@@ -66,7 +94,9 @@
                             <a href="<?= ROOT ?>login/index" class="nav-link text-light">Iniciar sesión</a>
                             <a href="<?= ROOT ?>login/registro" class="nav-link text-light">Registro</a>
                         <?php endif; ?>
-
+                        <?php if(isset( $_SESSION['admin'])): ?>
+                        <a href="<?= ROOT ?>adminUser" class="nav-link text-light" style="display: inline-block">Ir al panel de administracion</a>
+                        <?php endif; ?>
                     </li>
 
                 </ul>
@@ -85,8 +115,9 @@
                 <li class="nav-item">
                     <a href="<?= ROOT ?>adminProduct" class="nav-link">Productos</a>
                 </li>
+
 <li>
-    <a href="<?= ROOT ?>shop/logout" class="nav-link">Salir</a>
+    <a href="<?= ROOT ?>shop/logout" class="nav-link text-light" style="display: inline-block">Salir</a>
 </li>
             </ul>
         <?php endif; ?>
