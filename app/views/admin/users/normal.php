@@ -11,6 +11,7 @@
                 <th>Correo</th>
                 <th>Editar</th>
                 <th>Borrar</th>
+                <th>Ver detalles</th>
                 </thead>
                 <tbody>
                 <?php foreach ($data['users'] as $user): ?>
@@ -19,12 +20,12 @@
                         <td class="text-center"><?= $user->first_name ?></td>
                         <td class="text-center"><?= $user->email ?></td>
                         <td class="text-center">
-                            <a href="<?= ROOT ?>adminUser/edit/<?= $user->id ?>"
+                            <a href="<?= ROOT ?>adminUser/editNormal/<?= $user->id ?>"
                                 class="btn btn-info"
                             >Editar</a>
                         </td>
                         <td class="text-center">
-                            <a href="<?= ROOT ?>adminUser/delete/<?= $user->id ?>"
+                            <a href="<?= ROOT ?>adminUser/deleteNormal/<?= $user->id ?>"
                                class="btn btn-danger"
                             >Borrar</a>
                         </td>

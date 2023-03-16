@@ -42,6 +42,32 @@ class AdminUserController extends Controller
 
     }
 
+    public function show($id)
+    {
+        $session = new AdminSession();
+        if ($session->getLogin()) {
+            $users = $this->model->getNormalUsers();
+            $user = $this->model->getNormalUserById($id);
+            $status = $this->model->getConfig('adminStatus');
+            $data = [
+                'titulo' => 'Administración de Usuarios',
+                'menu' => false,
+                'admin' => true,
+                'users' => $users,
+                'data' => $user,
+                'status' => $status,
+
+
+            ];
+            $this->view('admin/users/show', $data);
+        } else {
+            header('LOCATION:' . ROOT . 'admin');
+        }
+
+    }
+
+
+
     public function create($dataform = [], $errors = [])
     {
 
@@ -125,6 +151,65 @@ class AdminUserController extends Controller
                 $this->create($dataForm, $errors);
             }
         }
+
+    public function editNormal($id)
+    {
+        $errors = [];
+
+        if ($_SERVER['REQUEST_METHOD'] == 'POST') {
+
+            $first_name = $_POST['first_name'] ?? '';
+            $email = $_POST['email'] ?? '';
+            $password1 = $_POST['password1'] ?? '';
+            $password2 = $_POST['password2'] ?? '';
+            $status = $_POST['status'] ?? '';
+
+            if ($first_name == '') {
+                array_push($errors, 'El nombre del usuario es requerido');
+            }
+            if ($email == '') {
+                array_push($errors, 'El email es requerido');
+            }
+            if ($status == '') {
+                array_push($errors, 'Selecciona un estado para el usuario');
+            }
+            if ( ! empty($password1) || ! empty($password2)) {
+                if ($password1 != $password2) {
+                    array_push($errors, 'Las contraseñas no coinciden');
+                }
+            }
+
+            if ( ! $errors ) {
+                $data = [
+                    'id' => $id,
+                    'first_name' => $first_name,
+                    'email' => $email,
+                    'password' => $password1,
+                    'status' => $status,
+                ];
+                $errors = $this->model->setNormalUser($data);
+                if ( ! $errors ) {
+                    header("location:" . ROOT . 'adminUser');
+                }
+            }
+        }
+
+        $user = $this->model->getNormalUserById($id);
+        $status = $this->model->getConfig('adminStatus');
+
+        $data = [
+            'titulo' => 'Administración de Usuarios - Editar',
+            'menu' => false,
+            'admin' => true,
+            'data' => $user,
+            'status' => $status,
+            'errors' => $errors,
+        ];
+
+        $this->view('admin/users/editNormal', $data);
+    }
+
+
     public function edit($id, $errors = [])
     {
 
@@ -138,6 +223,7 @@ class AdminUserController extends Controller
             'data' => $user,
             'status' => $status,
             'errors' => $errors,
+
         ];
         $this->view('admin/users/update', $data);
     }
@@ -217,4 +303,35 @@ class AdminUserController extends Controller
                     header('location:' . ROOT . 'adminUser');
                 }
             }
+
+
+    public function deleteNormal($id)
+    {
+        $errors = [];
+
+        if ($_SERVER['REQUEST_METHOD'] == 'POST') {
+
+            $errors = $this->model-> deleteNormalies($id);
+
+            if ( ! $errors ) {
+                header('location:' . ROOT . 'adminUser');
+            }
+
+        }
+
+        $user = $this->model->getNormalUserById($id);
+        $status = $this->model->getConfig('adminStatus');
+
+        $data = [
+            'titulo' => 'Administración de Usuarios - Eliminación',
+            'menu' => false,
+            'admin' => true,
+            'data' => $user,
+            'status' => $status,
+            'errors' => $errors,
+        ];
+
+        $this->view('admin/users/deleteNormal', $data);
+    }
+
         }

@@ -8,41 +8,43 @@
                 <thead>
                 <th>Id</th>
                 <th>Nombre</th>
+                <th>Primer apellido</th>
+                <th>Segundo apellido</th>
                 <th>Correo</th>
-                <th>Editar</th>
-                <th>Borrar</th>
+                <th>Direccion</th>
+                <th>Ciudad</th>
+                <th>Provincia</th>
+                <th>Coidgo postal</th>
+                <th>Pais</th>
                 </thead>
                 <tbody>
-                <?php foreach ($data['users'] as $user): ?>
-                    <tr>
-                        <td class="text-center"><?= $user->id ?></td>
-                        <td class="text-center"><?= $user->first_name ?></td>
-                        <td class="text-center"><?= $user->email ?></td>
-                        <td class="text-center">
-                            <a href="<?= ROOT ?>adminUser/edit/<?= $user->id ?>"
-                                class="btn btn-info"
-                            >Editar</a>
-                        </td>
-                        <td class="text-center">
-                            <a href="<?= ROOT ?>adminUser/delete/<?= $user->id ?>"
-                               class="btn btn-danger"
-                            >Borrar</a>
-                        </td>
-                        <td class="text-center">
-                            <a href="<?= ROOT ?>adminUser/show/<?= $user->id ?>"
-                               class="btn btn-danger"
-                            >Ver detalles</a>
-                        </td>
-                    </tr>
-                <?php endforeach; ?>
+
+                <form action="<?= ROOT ?>adminUser/show/<?= $data['data']->id ?>" method="POST">
+                <tr>
+                    <td class="text-center"><?= $data['data']->id ?></td>
+                    <td class="text-center"><?= $data['data']->first_name ?></td>
+                    <td class="text-center"><?= $data['data']->last_name_1 ?></td>
+                    <td class="text-center"><?= $data['data']->last_name_2 ?></td>
+                    <td class="text-center"><?= $data['data']->email ?></td>
+                    <td class="text-center"><?= $data['data']->address ?></td>
+                    <td class="text-center"><?= $data['data']->city ?></td>
+                    <td class="text-center"><?= $data['data']->state ?></td>
+                    <td class="text-center"><?= $data['data']->zipcode ?></td>
+                    <td class="text-center"><?= $data['data']->country ?></td>
+                </tr>
+                    </form>
+
+
+
+
                 </tbody>
             </table>
         </div>
         <div class="card-footer">
             <div class="row">
                 <div class="col-sm-6">
-                    <a href="<?= ROOT ?>adminUser/create" class="btn btn-success">
-                        Crear Usuario
+                    <a href="<?= ROOT ?>adminUser/normal" class="btn btn-success">
+                        Volver atras
                     </a>
                 </div>
                 <div class="col-sm-6">

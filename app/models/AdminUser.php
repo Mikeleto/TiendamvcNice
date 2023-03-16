@@ -84,7 +84,7 @@ class AdminUser
 
     public function getNormalUsers()
     {
-        $sql = 'SELECT * FROM users';
+        $sql = 'SELECT * FROM users WHERE deleted = 0';
         $query = $this->db->prepare($sql);
         $query->execute();
 
@@ -95,6 +95,14 @@ class AdminUser
     public function getUserById($id)
     {
         $sql = 'SELECT * FROM admins WHERE id=:id';
+        $query = $this->db->prepare($sql);
+        $query->execute([':id' => $id]);
+
+        return $query->fetch(PDO::FETCH_OBJ);
+    }
+    public function getNormalUserById($id)
+    {
+        $sql = 'SELECT * FROM users WHERE id=:id';
         $query = $this->db->prepare($sql);
         $query->execute([':id' => $id]);
 
@@ -155,11 +163,78 @@ class AdminUser
 
     }
 
+    public function setNormalUser($user)
+    {
+        $errors = [];
+
+        if($this->existsEmail($user['email']) > 0) {
+            array_push($errors, 'El email ya existe');
+        }
+        if ($user['password']) {
+
+            $sql = 'UPDATE users SET first_name=:name, email=:email, password=:password, status=:status, updated_at=:updated_at 
+                    WHERE id=:id';
+            $pass = hash_hmac('sha512', $user['password'], ENCRIPTKEY);
+            $params = [
+                ':id' => $user['id'],
+                ':name' => $user['name'],
+                ':email' => $user['email'],
+                ':password' => $pass,
+                ':status' => $user['status'],
+                ':updated_at' => date('Y-m-d H:i:s'),
+            ];
+
+        } else {
+
+            $sql = 'UPDATE users SET first_name=:name, email=:email, status=:status, updated_at=:updated_at 
+                    WHERE id=:id';
+            $params = [
+                ':id' => $user['id'],
+                ':name' => $user['name'],
+                ':email' => $user['email'],
+                ':status' => $user['status'],
+                ':updated_at' => date('Y-m-d H:i:s'),
+            ];
+
+        }
+
+        $query = $this->db->prepare($sql);
+
+        if ( ! $query->execute($params) ) {
+            array_push($errors, 'Error al modificar el usuario administrador');
+        }
+
+        return $errors;
+
+    }
+
+
     public function delete($id)
     {
         $errors = [];
 
         $sql = 'UPDATE admins SET deleted=:deleted, deleted_at=:deleted_at WHERE id=:id';
+        $params = [
+            'id' => $id,
+            'deleted' => 1,
+            'deleted_at' => date('Y-m-d H:i:s'),
+        ];
+
+        $query = $this->db->prepare($sql);
+
+        if ( ! $query->execute($params) ) {
+            array_push($errors, 'Error al eliminar el usuario administrador');
+        }
+
+        return $errors;
+    }
+
+
+    public function deleteNormalies($id)
+    {
+        $errors = [];
+
+        $sql = 'UPDATE users SET deleted=:deleted, deleted_at=:deleted_at WHERE id=:id';
         $params = [
             'id' => $id,
             'deleted' => 1,
