@@ -9,7 +9,23 @@ class Session
     public function __construct()
     {
         session_start();
+        if (isset($_SESSION['user'])) {
+            $this->user = $_SESSION['user'];
+            if ($this->user ==$_SESSION['admin']) {
+                // usuario es un administrador, permitir acceso a la ruta admin
+                $this->login = true;
+                $_SESSION['cartTotal'] = $this->cartTotal();
+                $this->cartTotal = $_SESSION['cartTotal'];
+                header('Location: /admin');
+            } else {
+                // usuario no es un administrador, redirigir a otra página
 
+
+            }
+        } else {
+            unset($this->user);
+            $this->login = false;
+        }
         if (isset($_SESSION['user'])) {
             $this->user = $_SESSION['user'];
             $this->login = true;
