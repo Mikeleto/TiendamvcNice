@@ -4,32 +4,32 @@
             <h1 class="text-center">Registro</h1>
         </div>
         <div class="card-body">
-            <form action="<?= ROOT ?>cart/addressform" method="post">
+            <form action="<?= ROOT ?>cart/paymentmode" method="post">
                 <div class="form-group text-left">
                     <label for="first_name">Nombre:</label>
                     <input type="text" name="first_name" id="first_name" class="form-control"
-                           placeholder="Escriba su nombre"
+                      required     placeholder="Escriba su nombre"
                            value="<?php isset($data['data']['firstName']) ? print $data['data']['firstName'] : '' ?>"
                     >
                 </div>
                 <div class="form-group text-left">
                     <label for="last_name_1">Apellido 1:</label>
                     <input type="text" name="last_name_1" id="last_name_1" class="form-control"
-                            placeholder="Escriba su primer apellido"
+                       required     placeholder="Escriba su primer apellido"
                            value="<?php isset($data['data']['lastName1']) ? print $data['data']['lastName1'] : '' ?>"
                     >
                 </div>
                 <div class="form-group text-left">
                     <label for="last_name_2">Apellido 2:</label>
                     <input type="text" name="last_name_2" id="last_name_2" class="form-control"
-                           placeholder="Escriba su segundo apellido"
+                      required     placeholder="Escriba su segundo apellido"
                            value="<?php isset($data['data']['lastName2']) ? print $data['data']['lastName2'] : '' ?>"
                     >
                 </div>
                 <div class="form-group text-left">
                     <label for="email">Correo electrónico:</label>
                     <input type="email" name="email" id="email" class="form-control"
-                           placeholder="Escriba su correo electrónico"
+                        required   placeholder="Escriba su correo electrónico"
                            value="<?php isset($data['data']['email']) ? print $data['data']['email'] : '' ?>"
                     >
                 </div>
@@ -69,7 +69,7 @@
                     >
                 </div>
                 <div class="form-group text-left">
-                    <a href="<?= ROOT ?>cart/paymentmode" type="submit" class="btn btn-success">Continuar</a>
+                    <input type="submit" value="Enviar" class="btn btn-success">
                 </div>
             </form>
         </div>

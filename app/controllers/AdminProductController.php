@@ -11,15 +11,15 @@ class AdminProductController extends Controller
 
     public function index()
     {
-        $session = new Session();
+        $session = new  AdminSession();
 
         if ($session->getLogin()) {
 
             $products = $this->model->getProducts();
             $type = $this->model->getConfig('productType');
-            foreach($products as $p){
-                $p->description = Validate::except($p->description,30);
-            }
+foreach ($products as $p){
+    $p->description = Validate::except($p->description,30);
+}
             $data = [
                 'titulo' => 'Administración de Productos',
                 'menu' => false,

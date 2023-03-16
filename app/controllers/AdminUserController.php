@@ -24,6 +24,24 @@ class AdminUserController extends Controller
 
     }
 
+    public function normal()
+    {
+        $session = new AdminSession();
+        if ($session->getLogin()) {
+            $users = $this->model->getNormalUsers();
+            $data = [
+                'titulo' => 'Administración de Usuarios',
+                'menu' => false,
+                'admin' => true,
+                'users' => $users,
+            ];
+            $this->view('admin/users/normal', $data);
+        } else {
+            header('LOCATION:' . ROOT . 'admin');
+        }
+
+    }
+
     public function create($dataform = [], $errors = [])
     {
 

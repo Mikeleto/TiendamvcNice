@@ -352,15 +352,6 @@ class LoginController extends Controller
                 $session->login($data);
 
 
-                if($data->is_admin){
-                    $sessionAdmin = new AdminSession();
-                    $dataAdmin = [
-                        'user' => $user,
-                        'password' => $password,
-                    ];
-                    $sessionAdmin->login($dataAdmin);
-                }
-
                 header("location:" . ROOT . 'shop');
             } else {
                 $data = [

@@ -120,16 +120,16 @@ WHERE id = :id
             ';
 
         $params = [
-            ':id' => '',
-            ':first_name' => '',
-            ':last_name_1' =>   '',
-            ':last_name_2' =>   '',
-            ':email' =>   '',
-            ':address' =>  '',
-            ':city' =>  '',
-            ':state' =>  '',
-            ':zipcode' =>   '',
-            ':country' =>  '',
+            ':id' => $_POST['id'] ?? '',
+            ':first_name' => $_POST['first_name'] ?? '',
+            ':last_name_1' => $_POST['last_name_1'] ??  '',
+            ':last_name_2' =>  $_POST['last_name_2'] ?? '',
+            ':email' =>  $_POST['email'] ?? '',
+            ':address' => $_POST['address'] ?? '',
+            ':city' => $_POST['city'] ?? '',
+            ':state' => $_POST['state'] ??  '',
+            ':zipcode' => $_POST['postcode'] ??  '',
+            ':country' => $_POST['country'] ?? '',
 
         ];
         $query = $this->db->prepare($sql);

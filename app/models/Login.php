@@ -54,23 +54,22 @@ class Login
 
                 $id = $this->db->lastInsertId();
 
-                $sql = 'INSERT INTO addresses(id,first_name, last_name_1, last_name_2, email, 
+                $sql = 'INSERT INTO adresses(id,first_name, last_name_1, last_name_2, email, 
                   address, city, state, zipcode, country) 
                   VALUES(:id,:first_name, :last_name_1, :last_name_2, :email, 
                   :address, :city, :state, :zipcode, :country)';
 
                 $params = [
-                 ':id' => $id,
-                    ':first_name' => $data['firstName'],
-                    ':last_name_1' => $data['lastName1'],
-                    ':last_name_2' => $data['lastName2'],
-                    ':email' => $data['email'],
-                    ':address' => $data['address'],
-                    ':city' => $data['city'],
-                    ':state' => $data['state'],
-                    ':zipcode' => $data['postcode'],
-                    ':country' => $data['country'],
-                    ':password' => $password,
+                 ':id' =>  $id,
+                    ':first_name' =>  $_POST['first_name'] ?? '',
+                    ':last_name_1' =>  $_POST['last_name_1'] ?? '',
+                    ':last_name_2' =>  $_POST['last_name_2'] ?? '',
+                    ':email' =>  $_POST['email'] ?? '',
+                    ':address' =>  $_POST['address'] ?? '',
+                    ':city' =>  $_POST['city'] ?? '',
+                    ':state' =>  $_POST['state'] ?? '',
+                    ':zipcode' =>  $_POST['postcode'] ?? '',
+                    ':country' =>  $_POST['country'] ?? '',
                 ];
 
                 $query = $this->db->prepare($sql);

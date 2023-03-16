@@ -78,11 +78,11 @@ class Validate
     }
 
 
-    public static function except($string, $limit){
+public static function except($string, $limit){
         $string = html_entity_decode($string);
         if(strlen($string)>$limit){
-            $string = substr($string, 0, $limit). '...';
+$string = substr($string, 0 , $limit). '...';
         }
         return $string;
-    }
+}
 }

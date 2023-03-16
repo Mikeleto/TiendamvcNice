@@ -144,8 +144,10 @@ class CartController extends Controller
             'titulo' => 'Carrito | Forma de pago',
             'subtitle' => 'Rellenar dirección de envío',
             'menu' => true,
+            'wtf' => $user,
 
         ];
+        var_dump($user);
 
         $this->view('carts/addressform', $data);
 
@@ -286,7 +288,7 @@ class CartController extends Controller
             $this->view('carts/addressform', $data);
         } else {
             $session->login($user);
-            $this->model->updateAddresses($user);
+            $this->model-> updateAddresses($user);
             $data = [
                 'titulo' => 'Carrito | Forma de pago',
                 'subtitle' => 'Checkout | Forma de pago',

@@ -1,7 +1,7 @@
 <?php include_once(VIEWS . 'header.php')?>
     <div class="card p-4 bg-light">
         <div class="card-header">
-            <h1 class="text-center">Usuarios Administradores</h1>
+            <h1 class="text-center">Usuarios</h1>
         </div>
         <div class="card-body">
             <table class="table text-center" width="100%">
@@ -16,7 +16,7 @@
                 <?php foreach ($data['users'] as $user): ?>
                     <tr>
                         <td class="text-center"><?= $user->id ?></td>
-                        <td class="text-center"><?= $user->name ?></td>
+                        <td class="text-center"><?= $user->first_name ?></td>
                         <td class="text-center"><?= $user->email ?></td>
                         <td class="text-center">
                             <a href="<?= ROOT ?>adminUser/edit/<?= $user->id ?>"
@@ -28,6 +28,11 @@
                                class="btn btn-danger"
                             >Borrar</a>
                         </td>
+                        <td class="text-center">
+                            <a href="<?= ROOT ?>adminUser/show/<?= $user->id ?>"
+                               class="btn btn-danger"
+                            >Ver detalles</a>
+                        </td>
                     </tr>
                 <?php endforeach; ?>
                 </tbody>
@@ -38,9 +43,6 @@
                 <div class="col-sm-6">
                     <a href="<?= ROOT ?>adminUser/create" class="btn btn-success">
                         Crear Usuario
-                    </a>
-                    <a href="<?= ROOT ?>adminUser/normal" class="btn btn-success">
-                        Usuarios normales
                     </a>
                 </div>
                 <div class="col-sm-6">

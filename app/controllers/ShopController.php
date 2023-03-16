@@ -48,9 +48,9 @@ class ShopController extends Controller
 
         // Agregar el campo $listTitle al array $data
 if($product->type == 1){
-    $listTitle = 'Libros';
-}elseif($product->type == 2){
     $listTitle = 'Cursos';
+}elseif ($product->type == 2){
+    $listTitle = 'Libros';
 }else{
     $listTitle = 'Productos';
 }

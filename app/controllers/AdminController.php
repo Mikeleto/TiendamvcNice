@@ -47,7 +47,7 @@ class AdminController extends Controller
 
                 if ( ! $errors ) {
 
-                    $session = new Session();
+                    $session = new AdminSession();
                     $session->login($dataForm);
 
                     header("LOCATION:" . ROOT . 'AdminShop');
@@ -69,11 +69,9 @@ class AdminController extends Controller
 
     }
 
-    public function logout()
-    {
+public function logout(){
         $session = new Session();
         $session->logout();
-        header("LOCATION:" . ROOT . 'AdminController/index');
-    }
-
+        header('LOCATION'.ROOT."AdminController/index");
+}
 }
