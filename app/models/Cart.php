@@ -28,21 +28,36 @@ class Cart
         $query = $this->db->prepare($sql);
         $query->execute([':id' => $product_id]);
         $product = $query->fetch(PDO::FETCH_OBJ);
+        $sql4 = 'SELECT * FROM users WHERE id=:id';
+        $query2 = $this->db->prepare($sql4);
+        $query2->execute([':id' => $user_id]);
+        $use = $query2->fetch(PDO::FETCH_OBJ);
+        $price = $product->price;
+        $send =  $product->send;
+        $discount =  $product->discount;
+        $total = $price + $send - $discount;
 
-        $sql2 = 'INSERT INTO carts(state, user_id, product_id, quantity, discount, send, date)
-                 VALUES (:state, :user_id, :product_id, :quantity, :discount, :send, :date)';
+        $sql2 = 'INSERT INTO carts(state,name,email, user_id, product_id,product_name, quantity, discount,price, send, date,total)
+                 VALUES (:state,:name,:email ,:user_id, :product_id,:product_name, :quantity, :discount,:price, :send, :date, :total)';
         $query2 = $this->db->prepare($sql2);
         $params2 = [
             ':state' => 0,
+            ':name' => $use->first_name,
+            ':email' => $use->email,
             ':user_id' => $user_id,
             ':product_id' => $product_id,
+            ':product_name' => $product->name,
             ':quantity' => 1,
-            ':discount' => $product->discount,
-            ':send' => $product->send,
+            ':discount' => $discount,
+            ':price' =>  $price,
+            ':send' => $send,
             ':date' => date('Y-m-d H:i:s'),
+            ':total' => $total,
         ];
         $query2->execute($params2);
         return $query2->rowCount();
+
+
     }
 
     public function getCart($user_id)
@@ -85,6 +100,7 @@ class Cart
 
     public function closeCart($id, $state)
     {
+        $response = false;
         $sql = 'UPDATE carts SET state=:state WHERE user_id=:user_id AND state=0';
         $query = $this->db->prepare($sql);
         $params = [
@@ -92,6 +108,9 @@ class Cart
             ':state' => $state,
         ];
         return $query->execute($params);
+
+
+
     }
 
 
@@ -105,7 +124,7 @@ class Cart
     public function updateAddresses($data){
         $response = false;
         $data = (array) $data;
-    $sql = 'UPDATE adresses SET 
+        $sql = 'UPDATE adresses SET 
                      id = :id,
             first_name = :first_name,
             last_name_1 = :last_name_1,
@@ -137,8 +156,23 @@ WHERE id = :id
         return $response;
 
     }
+    public function payments($id)
+    {
+        $sql = 'SELECT * FROM payment';
+        $query = $this->db->prepare($sql);
+        $query->execute([':id' => $id]);
+
+        return $query->fetch(PDO::FETCH_OBJ);
+    }
 
 
+    public function getPayments()
+    {
+        $sql = 'SELECT * FROM payment WHERE deleted = 0';
+        $query = $this->db->prepare($sql);
+        $query->execute();
 
+        return $query->fetchAll(PDO::FETCH_OBJ);
+    }
 
 }
