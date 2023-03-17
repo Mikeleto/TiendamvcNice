@@ -122,12 +122,16 @@
                     <a href="<?= ROOT ?>adminShop/sales" class="nav-link">Compras</a>
                 </li>
                 <li class="nav-item">
-                    <form action="<?= ROOT ?>search/products" class="d-flex" method="POST">
+
+                    <form action="<?= ROOT ?>adminSearch/products" class="d-flex" method="POST">
+                        <?php if(isset($data['admin']) && $data['admin']): ?>
                         <input type="text" name="search" id="search" class="form-control"
                                size="20" placeholder="¿producto?" required
                         >
                         <button type="submit" class="btn btn-light"><i class="fas fa-search"></i></button>
+                        <?php endif; ?>
                     </form>
+
                 </li>
 
                 <li>
