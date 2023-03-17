@@ -9,13 +9,18 @@ class AdminProductController extends Controller
         $this->model = $this->model('AdminProduct');
     }
 
-    public function index()
+    public function index($page = 1)
     {
         $session = new  AdminSession();
 
         if ($session->getLogin()) {
 
-            $products = $this->model->getProducts();
+            $limit = 5;
+            $total = $this->model->countProducts();
+            $totalPages = ceil($total/$limit);
+            $start = ($page - 1) * $limit;
+
+            $products = $this->model->getPaginatedProducts($start, $limit);
             $type = $this->model->getConfig('productType');
 foreach ($products as $p){
     $p->description = Validate::except($p->description,30);
@@ -26,6 +31,8 @@ foreach ($products as $p){
                 'admin' => true,
                 'type' => $type,
                 'products' => $products,
+                'totalPages' => $totalPages,
+                'currentPage' => $page,
             ];
 
             $this->view('admin/products/index', $data);

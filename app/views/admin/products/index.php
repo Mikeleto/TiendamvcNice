@@ -43,8 +43,13 @@
                 </a>
             </div>
             <div class="col-sm-6">
+                <!-- Formulario de búsqueda -->
+                <form method="get" action="<?php echo ROOT ?>admin/products">
+                    <div class="form-group">
+                        <input type="text" class="form-control" name="search" placeholder="Buscar" value="<?php echo $data ?>">
 
-            </div>
+
+                    </div>
         </div>
     </div>
 </div>
