@@ -115,8 +115,22 @@
                 <li class="nav-item">
                     <a href="<?= ROOT ?>adminProduct" class="nav-link">Productos</a>
                 </li>
+                <li class="nav-item">
+                    <a href="<?= ROOT ?>adminShop/payMode" class="nav-link">Metodos de pago</a>
+                </li>
+                <li class="nav-item">
+                    <a href="<?= ROOT ?>adminShop/sales" class="nav-link">Compras</a>
+                </li>
+                <li class="nav-item">
+                    <form action="<?= ROOT ?>search/products" class="d-flex" method="POST">
+                        <input type="text" name="search" id="search" class="form-control"
+                               size="20" placeholder="¿producto?" required
+                        >
+                        <button type="submit" class="btn btn-light"><i class="fas fa-search"></i></button>
+                    </form>
+                </li>
 
-<li>
+                <li>
     <a href="<?= ROOT ?>shop/logout" class="nav-link text-light" style="display: inline-block">Salir</a>
 </li>
             </ul>
