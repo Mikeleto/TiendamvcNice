@@ -43,6 +43,7 @@ class ShopController extends Controller
     public function show($id, $back = '')
     {
         $session = new Session();
+        $relation = $this->model->getRelation();
 
         $product = $this->model->getProductById($id);
 
@@ -64,6 +65,7 @@ if($product->type == 1){
             'errors' => [],
             'data' => $product,
             'user_id' => $session->getUserId(),
+            'relation' => $relation,
         ];
 
         $this->view('shop/show', $data);
@@ -88,6 +90,8 @@ if($product->type == 1){
       //      header('location:' . ROOT);
        // }
     }
+
+
 
     public function contact()
     {

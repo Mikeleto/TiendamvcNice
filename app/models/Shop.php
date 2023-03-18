@@ -26,6 +26,18 @@ class Shop
         return $query->fetch(PDO::FETCH_OBJ);
     }
 
+    public function getRelation()
+    {
+        $sql = 'SELECT * FROM products WHERE relation1 = 4 AND relation2 = 4 AND relation3 = 4';
+        $query = $this->db->prepare($sql);
+        $query->execute();
+
+        return $query->fetchAll(PDO::FETCH_OBJ);
+    }
+
+
+
+
     public function getNews()
     {
         $sql = 'SELECT * FROM products WHERE mostSold!=1 AND new=1 AND deleted=0 LIMIT 8';
