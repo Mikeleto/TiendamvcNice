@@ -9,18 +9,13 @@ class AdminProductController extends Controller
         $this->model = $this->model('AdminProduct');
     }
 
-    public function index($page = 1)
+    public function index()
     {
         $session = new  AdminSession();
 
         if ($session->getLogin()) {
+            $products = $this->model->getProducts();
 
-            $limit = 5;
-            $total = $this->model->countProducts();
-            $totalPages = ceil($total/$limit);
-            $start = ($page - 1) * $limit;
-
-            $products = $this->model->getPaginatedProducts($start, $limit);
             $type = $this->model->getConfig('productType');
 foreach ($products as $p){
     $p->description = Validate::except($p->description,30);
@@ -31,8 +26,7 @@ foreach ($products as $p){
                 'admin' => true,
                 'type' => $type,
                 'products' => $products,
-                'totalPages' => $totalPages,
-                'currentPage' => $page,
+
             ];
 
             $this->view('admin/products/index', $data);
@@ -344,6 +338,7 @@ foreach ($products as $p){
         $this->view('admin/products/update', $data);
     }
 
+
     public function delete($id)
     {
         $errors = [];
@@ -355,7 +350,6 @@ foreach ($products as $p){
             if (empty($errors)) {
                 header('location:' . ROOT . 'AdminProduct');
             }
-
         }
 
         $product = $this->model->getProductById($id);
@@ -368,5 +362,54 @@ foreach ($products as $p){
             'type' => $typeConfig,
             'product' => $product,
         ];
+        $this->view('admin/products/delete', $data);
     }
+
+    public function trash()
+    {
+        $session = new AdminSession();
+        if ($session->getLogin()) {
+            $users = $this->model->getTrash();
+            $status = $this->model->getConfig('adminStatus');
+            $data = [
+                'titulo' => 'Administración de Usuarios',
+                'menu' => false,
+                'admin' => true,
+                'users' => $users,
+                'status' => $status,
+
+
+            ];
+            $this->view('admin/products/trash', $data);
+        } else {
+            header('LOCATION:' . ROOT . 'adminProduct');
+        }
+
+    }
+    public function restore($id)
+    {
+        $errors = [];
+
+        if ($_SERVER['REQUEST_METHOD'] == 'POST') {
+
+            $errors = $this->model->getRestore($id);
+
+            if (empty($errors)) {
+                header('location:' . ROOT . 'AdminProduct');
+            }
+        }
+
+        $product = $this->model->getProductById($id);
+        $typeConfig = $this->model->getConfig('productType');
+
+        $data = [
+            'titulo' => 'Administración de Productos - Restaurar',
+            'menu' => false,
+            'admin' => true,
+            'type' => $typeConfig,
+            'product' => $product,
+        ];
+        $this->view('admin/products/restore', $data);
+    }
+
 }

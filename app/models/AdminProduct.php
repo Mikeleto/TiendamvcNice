@@ -83,21 +83,6 @@ class AdminProduct
         return $query->execute($params);
     }
 
-    public function countProducts() {
-        $sql = 'SELECT COUNT(*) as total FROM products';
-        $query = $this->db->prepare($sql);
-        $query->execute();
-        return $query->fetch(PDO::FETCH_OBJ)->total;
-    }
-
-    public function getPaginatedProducts($start, $limit){
-        $sql = 'SELECT * FROM products WHERE deleted = 0 LIMIT :start, :limit';
-        $query = $this->db->prepare($sql);
-        $query->bindParam(':start', $start, PDO::PARAM_INT);
-        $query->bindParam(':limit', $limit, PDO::PARAM_INT);
-        $query->execute();
-        return $query->fetchAll(PDO::FETCH_OBJ);
-    }
 
     public function getProductById($id)
     {
@@ -107,7 +92,6 @@ class AdminProduct
 
         return $query->fetch(PDO::FETCH_OBJ);
     }
-
     public function updateProduct($data)
     {
         $errors = [];
@@ -175,4 +159,38 @@ class AdminProduct
 
         return $errors;
     }
+
+    public function getTrash()
+    {
+        $sql = 'SELECT * FROM products WHERE deleted = 1';
+        $query = $this->db->prepare($sql);
+        $query->execute();
+
+        return $query->fetchAll(PDO::FETCH_OBJ);
+    }
+
+    public function getRestore($id)
+    {
+        $errors = [];
+
+        $sql = 'UPDATE products SET deleted=:deleted WHERE id=:id';
+
+        $params = [
+            ':id' => $id,
+            ':deleted' => 0,
+        ];
+
+        $query = $this->db->prepare($sql);
+
+        if ( ! $query->execute($params)) {
+            array_push($errors, 'Error al restaurar el producto');
+        }
+
+        return $errors;
+
+
+
+    }
+
+
 }
