@@ -41,15 +41,12 @@
                 <a href="<?= ROOT ?>adminProduct/create" class="btn btn-success">
                     Crear Producto
                 </a>
+                <a href="<?= ROOT ?>adminProduct/trash" class="btn btn-success">
+                    Papelera
+                </a>
             </div>
             <div class="col-sm-6">
-                <!-- Formulario de búsqueda -->
-                <form method="get" action="<?php echo ROOT ?>admin/products">
-                    <div class="form-group">
-                        <input type="text" class="form-control" name="search" placeholder="Buscar" value="<?php echo $data ?>">
 
-
-                    </div>
         </div>
     </div>
 </div>

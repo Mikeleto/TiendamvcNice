@@ -26,6 +26,7 @@ class AdminSession
             $_SESSION['admin'] = $user;
             $this->login = true;
         }
+
     }
 
     public function logout()

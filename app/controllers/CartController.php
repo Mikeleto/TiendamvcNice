@@ -44,9 +44,7 @@ class CartController extends Controller
         }
         $this->index($errors);
 
-
     }
-
     public function update()
     {
         if (isset($_POST['rows']) && isset($_POST['user_id']) && isset($_POST['admin_id'])) {
@@ -101,8 +99,18 @@ class CartController extends Controller
     {
         $session = new Session();
         $user = $session->getUser();
+        $cartItems = $this->model->getCart($user->id);
+        $subtotal = 0;
+        $send = 0;
+        $discount =  0;
+        foreach ($cartItems as $item) {
+            $subtotal += $item->price * $item->quantity;
+            $discount += $item->discount;
+            $send += $item->send;
+        }
+        $total = $subtotal - $discount + $send;
 
-        if ($this->model->closeCart($user->id, 1)) {
+        if ($this->model->closeCart($user->id, 1, $total)) {
 
             $data = [
                 'titulo' => 'Carrito | Gracias por su compra',
@@ -289,10 +297,12 @@ class CartController extends Controller
         } else {
             $session->login($user);
             $this->model-> updateAddresses($user);
+            $this->model->getPayments($user);
             $data = [
                 'titulo' => 'Carrito | Forma de pago',
                 'subtitle' => 'Checkout | Forma de pago',
                 'menu' => true,
+              'dor' => $user,
                 'data' => $user,
             ];
 

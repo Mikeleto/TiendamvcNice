@@ -196,6 +196,26 @@ class AdminShopController extends Controller
     }
 
 
+    public function search()
+    {
+        $search = $_POST['search'] ?? '';
+
+        if ($search != '') {
+            $dataSearch = $this->model->getProducts($search);
+
+            $data = [
+                'titulo' => 'Buscador de productos',
+                'subtitle' => 'Resultado de la búsqueda',
+                'data' => $dataSearch,
+                'menu' => true,
+            ];
+
+            $this->view('adminShop/search', $data);
+        } else {
+            header('location:' . ROOT);
+        }
+    }
+
     public function deletePay($id)
     {
         $errors = [];
